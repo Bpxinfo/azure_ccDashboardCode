@@ -94,7 +94,7 @@
         width: 20px;
         height: 20px;
         border: 1px solid black;
-        margin: 0 2px;
+        margin-right: 2px;
       }
 
       .red {
@@ -109,29 +109,208 @@
         background-color: green;
       }
 
+      .risk-analysis-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px; /* Spacing between items */
+      }
+
+      .risk-analysis-item {
+        display: flex;
+        justify-content:space-between;
+        align-items: center;
+        gap: 10px;
+        width:100%;
+      }
+
+      .label {
+        flex-grow: 1; /* Label takes remaining space */
+        text-align: left; /* Align label text to the left */
+        font-weight: bold;
+     }
+
+
+      .chart.horizontal {
+        display: flex;
+        flex-direction: row;
+        align-items:center;
+      }
       .card-body {
         overflow: scroll;
         height: 650px;
       }
 
-      .progress-bar-container1 {
-        width: 95%;
-        margin: 10px 0;
+      /* a. Completion Percentage Display */
+      .completion-percentage {
+          text-align: center;
+          margin-bottom: 10px;
+          font-weight: bold;
+          font-size: 14px;
       }
 
-      .progress-bar1 {
-        position: relative;
-        width: 100%;
-        height: 20px;
-        background: rgb(23, 98, 194);
-        background: linear-gradient(
-          90deg,
-          rgba(23, 98, 194, 1) 0%,
-          rgba(9, 88, 121, 0.958420868347339) 35%,
-          rgba(12, 186, 222, 1) 100%
-        );
-        border-radius: 10px;
-        overflow: hidden;
+      /* b. Progress Bar Container */
+      .progress-bar-container {
+          position: relative;
+          width: 100%;
+          max-width: 300px;
+          margin-bottom: 15px;
+      }
+
+      /* Progress Bar */
+      .progress-bar {
+          position: relative;
+          width: 100%;
+          height: 25px;
+          background-color: lightgray;
+          border-radius: 12.5px;
+          overflow: hidden;
+      }
+
+      /* Budget Bar */
+      .budget-bar {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          background-color: rgba(9, 88, 121, 0.8);
+          width: {{ cashout_percentage }}%;
+          z-index: 1;
+          border-radius: 12.5px 0 0 12.5px;
+      }
+
+      /* Completion Bar */
+      .completion-bar {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          background-color: rgba(12, 186, 222, 1);
+          width: {{ completion_percentage }}%;
+          z-index: 2;
+          border-radius: 12.5px 0 0 12.5px;
+      }
+
+      /* c. Indicator for Accrual */
+      .indicator {
+          position: absolute;
+          top: -5px; /* Adjust as needed */
+          width: 2px;
+          height: 35px; /* Height to extend above the bar */
+          background-color: black;
+          z-index: 3;
+      }
+
+      /* Milestone Dots */
+      .milestone-dots {
+          position: absolute;
+          top: 50%;
+          left: 0;
+          width: 100%;
+          height: 0;
+          display: flex;
+          justify-content: space-between;
+          transform: translateY(-50%);
+          z-index: 4;
+      }
+
+      .milestone-dot {
+          width: 10px;
+          height: 10px;
+          background-color: black;
+          border-radius: 50%;
+          transform: translateX(-50%);
+      }
+
+      .proress-bar-wrapper {
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        gap:10px;
+      }
+
+      /* Milestone Dates */
+      .start-date, .end-date {
+        font-size: 12px;
+        font-weight: bold;
+        white-space: nowrap;
+        background-color: white; /* Optional: for better readability */
+        padding: 2px 4px;
+        border-radius: 4px;
+        box-shadow: 0 0 2px rgba(0,0,0,0.3);
+      }
+
+      .start-date {
+          left: -80px;
+      }
+
+      .end-date {
+          right: -80px;
+      }
+
+      /* d. Labels for Budget and Actuals */
+      .progress-bar-labels {
+          position: relative;
+          width: 100%;
+          max-width: 300px;
+          height: auto; /* Same as progress bar height */
+          margin-top: 5px;
+      }
+
+      .budget-label {
+          position: absolute;
+          right: 0;
+          top: 0;
+          font-size: 12px;
+          font-weight: bold;
+          white-space: nowrap;
+      }
+
+      .actuals-label {
+        position: absolute;
+        left: {{ completion_percentage }}%;
+        top: 50%; /* Vertically center */
+        transform: translate(-50%, -50%);
+        font-size: 12px;
+        font-weight: bold;
+        color: white;
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background for readability */
+        padding: 2px 4px;
+        border-radius: 4px;
+        white-space: nowrap;
+        box-shadow: 0 0 2px rgba(0,0,0,0.3);
+        z-index: 5; /* Ensure it's above other elements */
+      }
+
+      .accrual-label {
+        position: absolute;
+        left: {{ accrual_percentage }}%;
+        top: -25px; /* Positioned above the indicator */
+        transform: translateX(-50%);
+        font-size: 12px;
+        font-weight: bold;
+        color: black;
+        background-color: white; /* Background for readability */
+        padding: 2px 4px;
+        border-radius: 4px;
+        white-space: nowrap;
+        box-shadow: 0 0 2px rgba(0,0,0,0.3);
+        z-index: 5; /* Ensure it's above other elements */
+    }
+
+      /* e. Responsive Adjustments */
+      @media (max-width: 768px) {
+          .progress-bar-container, .progress-bar-labels {
+              max-width: 100%;
+          }
+          .completion-percentage {
+              font-size: 12px;
+          }
+          .start-date, .end-date, .accrual-label {
+              font-size: 10px;
+          }
+          .budget-label, .actuals-label {
+              font-size: 10px;
+          }
       }
 
       .segment {
@@ -140,14 +319,28 @@
         top: 0;
       }
 
-      .indicator {
-        position: absolute;
-        top: 0;
-        width: 2px;
-        height: 100%;
-        background-color: black;
-        z-index: 4;
-      }
+      .pm-status-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start; /* Align items vertically */
+    }
+
+    .pm-status-item {
+        display: flex;
+        justify-content:space-between;
+        align-items: center;
+        margin-bottom: 5px; /* Spacing between items */
+        width:100%;
+    }
+
+    .pm-status-item .label {
+        margin-right: 8px; /* Space between label and icon */
+    }
+
+    .icon {
+        font-size: 16px;
+    }
+
     </style>
   </head>
   <body>
@@ -460,12 +653,6 @@
                           </th>
                           <th title="Current status of the project">Status</th>
                           <th
-                            style="width: 150px"
-                            title="Overview of project milestones. Q1-Q4 from left to right. Amount of circle filled indicates percentage of milestones completed in that quarter"
-                          >
-                            Milestone Overview
-                          </th>
-                          <th
                             style="width: 140px"
                             title="Project status for Overall, Scope, Schedule, and Budget (From left to right)"
                           >
@@ -529,7 +716,7 @@
                           {% elif value['Status'] == 'Overdue' %}
                           <td style="width: 10%">
                             <span class="badge bg-danger"
-                              >{{value['Status']}}</span
+                              >{{value['Status']}}</span 
                             >
                           </td>
                           {% elif value['Status'] == 'Cancelled' %}
@@ -546,417 +733,189 @@
                           </td>
                           {% endif %}
 
-                          <!-- Milestone -->
-                          <td>
-                            <div
-                              style="
-                                display: flex;
-                                flex-direction: column;
-                                align-items: center;
-                              "
-                            >
-                              <!-- Labels for Q1 to Q4 -->
-                              <div
-                                style="
-                                  display: flex;
-                                  justify-content: space-around;
-                                  width: 100%;
-                                "
-                              >
-                                <span>Q1</span>
-                                <span>Q2</span>
-                                <span>Q3</span>
-                                <span>Q4</span>
-                              </div>
-                              <!-- Circles for each quarter -->
-                              <div
-                                style="
-                                  display: flex;
-                                  justify-content: space-around;
-                                  width: 100%;
-                                "
-                              >
-                                <!-- Q1 -->
-                                {% if value['Q1'] == 1 %}
-                                <div class="circle quarter"></div>
-                                {% elif value['Q1'] == 2 %}
-                                <div class="circle half"></div>
-                                {% elif value['Q1'] == 3 %}
-                                <div class="circle three-quarters"></div>
-                                {% elif value['Q1'] == 4 %}
-                                <div class="circle full"></div>
-                                {% else %}
-                                <div>{{ value['Q1'] }}</div>
-                                {% endif %}
-
-                                <!-- Q2 -->
-                                {% if value['Q2'] == 1 %}
-                                <div class="circle quarter"></div>
-                                {% elif value['Q2'] == 2 %}
-                                <div class="circle half"></div>
-                                {% elif value['Q2'] == 3 %}
-                                <div class="circle three-quarters"></div>
-                                {% elif value['Q2'] == 4 %}
-                                <div class="circle full"></div>
-                                {% else %}
-                                <div>{{ value['Q2'] }}</div>
-                                {% endif %}
-
-                                <!-- Q3 -->
-                                {% if value['Q3'] == 1 %}
-                                <div class="circle quarter"></div>
-                                {% elif value['Q3'] == 2 %}
-                                <div class="circle half"></div>
-                                {% elif value['Q3'] == 3 %}
-                                <div class="circle three-quarters"></div>
-                                {% elif value['Q3'] == 4 %}
-                                <div class="circle full"></div>
-                                {% else %}
-                                <div>{{ value['Q3'] }}</div>
-                                {% endif %}
-
-                                <!-- Q4 -->
-                                {% if value['Q4'] == 1 %}
-                                <div class="circle quarter"></div>
-                                {% elif value['Q4'] == 2 %}
-                                <div class="circle half"></div>
-                                {% elif value['Q4'] == 3 %}
-                                <div class="circle three-quarters"></div>
-                                {% elif value['Q4'] == 4 %}
-                                <div class="circle full"></div>
-                                {% else %}
-                                <div>{{ value['Q4'] }}</div>
-                                {% endif %}
-                              </div>
-                            </div>
-                          </td>
-
                           <!--End -->
 
                           <td>
-                            <div
-                              style="
-                                display: flex;
-                                flex-direction: column;
-                                align-items: center;
-                              "
-                            >
-                              <!-- Labels for Overall, Scope, Schedule, Budget -->
-                              <div
-                                style="
-                                  display: flex;
-                                  justify-content: space-around;
-                                  width: 100%;
-                                "
-                              >
-                                <span>Overall</span>
-                                <span>Scope</span>
-                                <span>Schedule</span>
-                                <span>Budget</span>
-                              </div>
-                              <!-- Icons for each section -->
-                              <div
-                                style="
-                                  display: flex;
-                                  justify-content: space-around;
-                                  width: 100%;
-                                "
-                              >
+                            <div class="pm-status-container">
                                 <!-- Overall -->
-                                <div>
-                                  {% if value['Overall'] == 4 %}
-                                  <span class="icon check">&#x2713;</span>
-                                  {% elif value['Overall'] == 3 %}
-                                  <span class="icon yellowcircle"
-                                    >&#x25CF;</span
-                                  >
-                                  {% elif value['Overall'] == 2 %}
-                                  <span class="icon cross">&#x2717;</span>
-                                  {% elif value['Overall'] == 1 %}
-                                  <span class="icon graycircle">&#x25CF;</span>
-                                  {% endif %}
+                                <div class="pm-status-item">
+                                    <span class="label">Overall:</span>
+                                    {% if value['Overall'] == 4 %}
+                                    <span class="icon check">&#x2713;</span>
+                                    {% elif value['Overall'] == 3 %}
+                                    <span class="icon yellowcircle">&#x25CF;</span>
+                                    {% elif value['Overall'] == 2 %}
+                                    <span class="icon cross">&#x2717;</span>
+                                    {% elif value['Overall'] == 1 %}
+                                    <span class="icon graycircle">&#x25CF;</span>
+                                    {% endif %}
                                 </div>
-
                                 <!-- Scope -->
-                                <div>
-                                  {% if value['Scope'] == 1 %}
-                                  <span class="icon check">&#x2713;</span>
-                                  {% elif value['Scope'] == 2 %}
-                                  <span class="icon yellowcircle"
-                                    >&#x25CF;</span
-                                  >
-                                  {% elif value['Scope'] == 3 %}
-                                  <span class="icon cross">&#x2717;</span>
-                                  {% elif value['Scope'] == 4 %}
-                                  <span class="icon graycircle">&#x25CF;</span>
-                                  {% endif %}
+                                <div class="pm-status-item">
+                                    <span class="label">Scope:</span>
+                                    {% if value['Scope'] == 1 %}
+                                    <span class="icon check">&#x2713;</span>
+                                    {% elif value['Scope'] == 2 %}
+                                    <span class="icon yellowcircle">&#x25CF;</span>
+                                    {% elif value['Scope'] == 3 %}
+                                    <span class="icon cross">&#x2717;</span>
+                                    {% elif value['Scope'] == 4 %}
+                                    <span class="icon graycircle">&#x25CF;</span>
+                                    {% endif %}
                                 </div>
-
                                 <!-- Schedule -->
-                                <div>
-                                  {% if value['Schedule'] < 0 %}
-                                  <span class="icon cross">&#x2717;</span>
-                                  {% elif value['Schedule'] <= 5 %}
-                                  <span class="icon yellowcircle"
-                                    >&#x25CF;</span
-                                  >
-                                  {% elif value['Schedule'] > 5 %}
-                                  <span class="icon check">&#x2713;</span>
-                                  {% else %}
-                                  <span class="icon graycircle">&#x25CF;</span>
-                                  {% endif %}
+                                <div class="pm-status-item">
+                                    <span class="label">Schedule:</span>
+                                    {% if value['Schedule'] < 0 %}
+                                    <span class="icon cross">&#x2717;</span>
+                                    {% elif value['Schedule'] <= 5 %}
+                                    <span class="icon yellowcircle">&#x25CF;</span>
+                                    {% elif value['Schedule'] > 5 %}
+                                    <span class="icon check">&#x2713;</span>
+                                    {% else %}
+                                    <span class="icon graycircle">&#x25CF;</span>
+                                    {% endif %}
                                 </div>
-
                                 <!-- Budget -->
-                                <div>
-                                  {% if value['Budget'] > 0.75 %}
-                                  <span class="icon check">&#x2713;</span>
-                                  {% elif value['Budget'] > 0.5 %}
-                                  <span class="icon yellowcircle"
-                                    >&#x25CF;</span
-                                  >
-                                  {% elif value['Budget'] <= 0.5 %}
-                                  <span class="icon cross">&#x2717;</span>
-                                  {% else %}
-                                  <span class="icon graycircle">&#x25CF;</span>
-                                  {% endif %}
+                                <div class="pm-status-item">
+                                    <span class="label">Budget:</span>
+                                    {% if value['Budget'] > 0.75 %}
+                                    <span class="icon check">&#x2713;</span>
+                                    {% elif value['Budget'] > 0.5 %}
+                                    <span class="icon yellowcircle">&#x25CF;</span>
+                                    {% elif value['Budget'] <= 0.5 %}
+                                    <span class="icon cross">&#x2717;</span>
+                                    {% else %}
+                                    <span class="icon graycircle">&#x25CF;</span>
+                                    {% endif %}
                                 </div>
-                              </div>
                             </div>
                           </td>
+                        
 
-                          {% set cashout_percentage =
-                          (value['LT_Budget_Cashout'] / value['LT_Budget']) *
-                          100 %} {% set accrual_percentage =
-                          (value['LT_Budget_Accrual'] / value['LT_Budget']) *
-                          100 %}
-                          <td>
-                            <div class="progress-bar-container1">
-                              <div class="progress-bar1">
-                                <div
-                                  class="segment gradient-1"
-                                  style="width: {{ cashout_percentage }}%;"
-                                >
-                                  <div
-                                    class="indicator"
-                                    style="left: {{ accrual_percentage }}%;"
-                                  ></div>
-                                </div>
-                              </div>
+                          {% set cashout_percentage = (value['LT_Budget_Cashout'] / value['LT_Budget']) * 100 %}
+                          {% set accrual_percentage = (value['LT_Budget_Accrual'] / value['LT_Budget']) * 100 %}
+                          {% set completion_percentage = (value['milestonecompletion_per'])* 100 %}
+
+                          {% set milestones = [
+                              {"percent": 25, "name": "Milestone 1"},
+                              {"percent": 50, "name": "Milestone 2"},
+                              {"percent": 75, "name": "Milestone 3"}
+                          ] %}
+
+                          <td style="width:25%; position: relative;">
+                            <!-- Completion Percentage Display -->
+                            <div class="completion-percentage">
+                                Project Milestone Completion: {{ completion_percentage| round(2) }}%
                             </div>
-                            <p style="font-weight: bold">
-                              Budget - {{ value['labelbg'] }}<br />
-                              Cashout - {{ value['labelcas'] }}<br />
-                              Accrual - {{ value['labelacc'] }}
-                            </p>
-                          </td>
+                            
+                            <!-- Container for Dates and Progress Bar -->
+                            <div class="progress-bar-wrapper" style="display: flex; align-items: center; justify-content: center;">
+                                <!-- Start Date -->
+                                <span class="start-date">{{ value['startdate'] }}</span>
+                                
+                                <!-- Progress bar container with overlayed Budget and Completion Bars -->
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar">
+                                        <!-- Budget Bar (Actuals) -->
+                                        <div class="budget-bar" style="width: {{ cashout_percentage }}%;" title="Actuals"></div>
+                        
+                                        <!-- Completion Bar -->
+                                        <div class="completion-bar" style="width: {{ completion_percentage | round(2) }}%;" title="Project Completion">
+                                            <!-- Milestone Dots -->
+                                            <div class="milestone-dots">
+                                                {% for milestone in milestones %}
+                                                <div class="milestone-dot" style="left: {{ milestone.percent }}%;" title="{{ milestone.name }}"></div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                        
+                                        <!-- Indicator for Accrual -->
+                                        <div class="indicator" style="left: {{ accrual_percentage }}%;" title="Accrual"></div>
+                                    </div>
+                                  
+                                    <!-- Labels for Budget, Actuals, and Accrual -->
+                                    <div class="progress-bar-labels">
+                                        <span class="budget-label">Budget: {{ value['labelbg'] }}</span>
+                                        <span class="actuals-label">Actuals: {{ value['labelcas'] }}</span>
+                                        <span class="accrual-label">Accrual: {{ value['labelacc'] }}</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- End Date -->
+                                <span class="end-date">{{ value['enddate'] }}</span>
+                            </div>
+                        </td>
+                        
+                        
+                                               
+                          
                           <td>
-                            <div
-                              style="
-                                display: flex;
-                                flex-direction: column;
-                                align-items: center;
-                              "
-                            >
-                              <!-- Labels for Pace, Execution, Resources -->
-                              <div
-                                style="
-                                  display: flex;
-                                  justify-content: space-around;
-                                  width: 100%;
-                                "
-                              >
-                                <span>Pace</span>
-                                <span>Execution</span>
-                                <span>Resources</span>
-                              </div>
-                              <!-- Icons/Charts for each section -->
-                              <div
-                                style="
-                                  display: flex;
-                                  justify-content: space-around;
-                                  width: 100%;
-                                "
-                              >
-                                <!-- Pace -->
-                                <div
-                                  style="
-                                    display: inline-flex;
-                                    padding-right: 15px;
-                                  "
-                                >
+                            <div class="risk-analysis-container">
+                              <!-- Pace -->
+                              <div class="risk-analysis-item horizontal">
+                                <span class="label">Pace:</span>
+                                <div class="chart horizontal">
                                   {% if value['Pace'] <= 0 %}
-                                  <div class="chart column">
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                  </div>
+                                  <div class="box"></div><div class="box"></div><div class="box"></div><div class="box"></div><div class="box"></div>
                                   {% elif value['Pace'] <= 10 %}
-                                  <div class="chart column">
-                                    <div class="box green"></div>
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                  </div>
+                                  <div class="box green"></div><div class="box"></div><div class="box"></div><div class="box"></div><div class="box"></div>
                                   {% elif value['Pace'] <= 20 %}
-                                  <div class="chart column">
-                                    <div class="box orange"></div>
-                                    <div class="box orange"></div>
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                  </div>
+                                  <div class="box orange"></div><div class="box orange"></div><div class="box"></div><div class="box"></div><div class="box"></div>
                                   {% elif value['Pace'] <= 30 %}
-                                  <div class="chart column">
-                                    <div class="box orange"></div>
-                                    <div class="box orange"></div>
-                                    <div class="box orange"></div>
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                  </div>
+                                  <div class="box orange"></div><div class="box orange"></div><div class="box orange"></div><div class="box"></div><div class="box"></div>
                                   {% elif value['Pace'] <= 40 %}
-                                  <div class="chart column">
-                                    <div class="box red"></div>
-                                    <div class="box red"></div>
-                                    <div class="box red"></div>
-                                    <div class="box red"></div>
-                                    <div class="box"></div>
-                                  </div>
+                                  <div class="box red"></div><div class="box red"></div><div class="box red"></div><div class="box red"></div><div class="box"></div>
                                   {% else %}
-                                  <div class="chart column">
-                                    <div class="box red"></div>
-                                    <div class="box red"></div>
-                                    <div class="box red"></div>
-                                    <div class="box red"></div>
-                                    <div class="box red"></div>
-                                  </div>
+                                  <div class="box red"></div><div class="box red"></div><div class="box red"></div><div class="box red"></div><div class="box red"></div>
                                   {% endif %}
                                 </div>
-
-                                <!-- Execution -->
-                                <div
-                                  style="
-                                    display: inline-flex;
-                                    padding-right: 15px;
-                                  "
-                                >
+                              </div>
+                          
+                              <!-- Execution -->
+                              <div class="risk-analysis-item horizontal">
+                                <span class="label">Execution:</span>
+                                <div class="chart horizontal">
                                   {% if value['Execution'] <= 0 %}
-                                  <div class="chart column">
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                  </div>
+                                  <div class="box"></div><div class="box"></div><div class="box"></div><div class="box"></div><div class="box"></div>
                                   {% elif value['Execution'] <= 10 %}
-                                  <div class="chart column">
-                                    <div class="box green"></div>
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                  </div>
+                                  <div class="box green"></div><div class="box"></div><div class="box"></div><div class="box"></div><div class="box"></div>
                                   {% elif value['Execution'] <= 20 %}
-                                  <div class="chart column">
-                                    <div class="box orange"></div>
-                                    <div class="box orange"></div>
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                  </div>
+                                  <div class="box orange"></div><div class="box orange"></div><div class="box"></div><div class="box"></div><div class="box"></div>
                                   {% elif value['Execution'] <= 30 %}
-                                  <div class="chart column">
-                                    <div class="box orange"></div>
-                                    <div class="box orange"></div>
-                                    <div class="box orange"></div>
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                  </div>
+                                  <div class="box orange"></div><div class="box orange"></div><div class="box orange"></div><div class="box"></div><div class="box"></div>
                                   {% elif value['Execution'] <= 40 %}
-                                  <div class="chart column">
-                                    <div class="box red"></div>
-                                    <div class="box red"></div>
-                                    <div class="box red"></div>
-                                    <div class="box red"></div>
-                                    <div class="box"></div>
-                                  </div>
+                                  <div class="box red"></div><div class="box red"></div><div class="box red"></div><div class="box red"></div><div class="box"></div>
                                   {% else %}
-                                  <div class="chart column">
-                                    <div class="box red"></div>
-                                    <div class="box red"></div>
-                                    <div class="box red"></div>
-                                    <div class="box red"></div>
-                                    <div class="box red"></div>
-                                  </div>
+                                  <div class="box red"></div><div class="box red"></div><div class="box red"></div><div class="box red"></div><div class="box red"></div>
                                   {% endif %}
                                 </div>
-
-                                <!-- Resources -->
-                                <div
-                                  style="
-                                    display: inline-flex;
-                                    padding-right: 15px;
-                                  "
-                                >
+                              </div>
+                          
+                              <!-- Resources -->
+                              <div class="risk-analysis-item horizontal">
+                                <span class="label">Resources:</span>
+                                <div class="chart horizontal">
                                   {% if value['Resources'] <= 0 %}
-                                  <div class="chart column">
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                  </div>
+                                  <div class="box"></div><div class="box"></div><div class="box"></div><div class="box"></div><div class="box"></div>
                                   {% elif value['Resources'] <= 10 %}
-                                  <div class="chart column">
-                                    <div class="box green"></div>
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                  </div>
+                                  <div class="box green"></div><div class="box"></div><div class="box"></div><div class="box"></div><div class="box"></div>
                                   {% elif value['Resources'] <= 20 %}
-                                  <div class="chart column">
-                                    <div class="box orange"></div>
-                                    <div class="box orange"></div>
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                  </div>
+                                  <div class="box orange"></div><div class="box orange"></div><div class="box"></div><div class="box"></div><div class="box"></div>
                                   {% elif value['Resources'] <= 30 %}
-                                  <div class="chart column">
-                                    <div class="box orange"></div>
-                                    <div class="box orange"></div>
-                                    <div class="box orange"></div>
-                                    <div class="box"></div>
-                                    <div class="box"></div>
-                                  </div>
+                                  <div class="box orange"></div><div class="box orange"></div><div class="box orange"></div><div class="box"></div><div class="box"></div>
                                   {% elif value['Resources'] <= 40 %}
-                                  <div class="chart column">
-                                    <div class="box red"></div>
-                                    <div class="box red"></div>
-                                    <div class="box red"></div>
-                                    <div class="box red"></div>
-                                    <div class="box"></div>
-                                  </div>
+                                  <div class="box red"></div><div class="box red"></div><div class="box red"></div><div class="box red"></div><div class="box"></div>
                                   {% else %}
-                                  <div class="chart column">
-                                    <div class="box red"></div>
-                                    <div class="box red"></div>
-                                    <div class="box red"></div>
-                                    <div class="box red"></div>
-                                    <div class="box red"></div>
-                                  </div>
+                                  <div class="box red"></div><div class="box red"></div><div class="box red"></div><div class="box red"></div><div class="box red"></div>
                                   {% endif %}
-                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                          
+                          
+                          
                                     
                                   <td> 
                                   {% if value['Issues'] == 'L' %}   

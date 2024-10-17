@@ -14,6 +14,7 @@ from airtabledb import getDataFromPrograms,create_record_Program,add_list,getLis
 
 ##### ONLINE CHAT BOT FILE 
 file_path = 'https://bpxai-my.sharepoint.com/personal/manas_shalgar_bpx_ai/_layouts/15/download.aspx?share=EW7IZR3VH_ZDp_rhgbv9GlQBowPIosXVpfUCXsAUTYNJ8Q'
+#f_p2 = 'https://bpxai.sharepoint.com/:x:/s/Gilead/EZTmVsrGCqVHqCPEh1WscdIBeEm4SOdER1Xt8aC0f4qdtQ?e=ZG68ZK'
 DATA_FILE = os.path.join('boxes_data.json')
 app = Flask(__name__, static_folder='static')
 CORS(app)
@@ -33,7 +34,7 @@ def main_all_data():
     df_sheet_name2 = pd.read_excel(file_path, sheet_name='Project Status')
     df_sheet_name5 = pd.read_excel(file_path, sheet_name='Issues')
     df_sheet_name6 = pd.read_excel(file_path, sheet_name='Project Data')
-
+    #df_roadmap = pd.read_excel(f_p2, sheet_name='CCC Project Roadmap')
     project_dict = {}
 # Process data from 'Total Risk' sheet
     for index, row in df_sheet_name4.iterrows():
@@ -101,8 +102,8 @@ def main_all_data():
         if project_id not in project_dict:
             project_dict[project_id] = {}
         project_dict[project_id].update({
-            'startdate': row['Start Date'],
-            'enddate': row['Due Date'],
+            'startdate': row['Start Date'].strftime('%Y-%m-%d'),
+            'enddate': row['Due Date'].strftime('%Y-%m-%d'),
             'type': row['Type']
         })
 
@@ -183,11 +184,17 @@ def page2_table1():
 ####################################################################
 def indexpage_top():
     df_budget_sheet = pd.read_excel(file_path, sheet_name='Gauges')
+    df_sheet_2 = pd.read_excel(file_path, sheet_name="Issues")
+    df_sheet_projects = pd.read_excel(file_path, sheet_name="Project Data")
     budget_total_value = round(df_budget_sheet['Total Budget'].sum(), 2)
     budget_current_value = round(df_budget_sheet['Current Spend'].sum(), 2)
     status_current = round(df_budget_sheet['Current Status'].sum(),2)
+    total_projects_value = df_sheet_projects['Project ID'].nunique()
     status_total = 100
-    return budget_total_value,budget_current_value,status_current
+    total_issues_value = round(df_sheet_2['Count'].sum(),2)
+    df_sheet_projects['Hours Used'] = pd.to_numeric(df_sheet_projects['Hours Used'], errors='coerce')
+    avg_hours_used = df_sheet_projects.groupby('Project ID')['Hours Used'].mean().mean()
+    return budget_total_value,budget_current_value,status_current, total_issues_value, total_projects_value, avg_hours_used
 ####################################################################
 ##################### TABLE 2 DATA IN INDEX MAIN PAGE #######################
 def financedata_indexpage():
@@ -579,8 +586,8 @@ def index():
     #data=main_all_data()
     def formatenum(num):
         return f"{int(num):,}"
-    totalbudge,currentspend,currentstatus = indexpage_top()
-    data1={'a':formatenum(totalbudge),'b':formatenum(currentspend),'c':formatenum(currentstatus)}
+    totalbudge,currentspend,currentstatus, total_issues, total_projects, avg_hours = indexpage_top()
+    data1={'a':formatenum(totalbudge),'b':formatenum(currentspend),'c':formatenum(currentstatus), 'd':formatenum(total_issues), 'e':formatenum(total_projects), 'f':formatenum(avg_hours)}
     projectdata=indexpage_projectdata()
     financedate = financedata_indexpage()
    
