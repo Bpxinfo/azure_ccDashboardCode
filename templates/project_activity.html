@@ -110,7 +110,46 @@
         .cross {
             color: red;
         }
+        .status-container {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        border-radius: 10px;
+        margin-left: 20px;
+        width:600px
+      }
 
+      .status-group {
+        display: flex;
+        flex-direction: column;
+        margin-right: 80px;
+      }
+
+      .status-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .status-label {
+        text-align: left;
+        font-weight: bold;
+        width: 120px;
+      }
+
+      .status-icon {
+        text-align: right;
+        padding-left:20px
+      }
+
+      .additional-status-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+      
     .bar-container {
             width: 250px;
             height: 25px;
@@ -127,6 +166,16 @@
     display: flex;
     flex-direction: column;
 }
+        #chart_div_container {
+          width: 100%;
+          overflow-x: auto;
+          white-space:nowrap;
+          padding:10px;
+        }
+        #chart_div {
+          min-width:1200px;
+          display:inline-block;
+        }
 .budgetchartcss{font-weight: bold;margin-top:5px;padding:4px;}
 .column {
     display: flex;
@@ -355,12 +404,12 @@ label{font-weight: bold;}
                 <i class="mdi  mdi-clipboard-text menu-icon"></i>
               </a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a class="nav-link" href="/studytimeline2">
                 <span class="menu-title">Project Study</span>
                 <i class="mdi mdi-calendar-check menu-icon"></i>
               </a>
-            </li>
+            </li> -->
             <li class="nav-item">
               <a class="nav-link" href="/notes_issues">
                 <span class="menu-title">Notes & Issue</span>
@@ -445,60 +494,50 @@ label{font-weight: bold;}
                           <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Milestone Overview</label>
                             <div class="col-sm-9">
-                               <div id="milestonebar" style="margin-bottom:20px;"></div>
+                              <div id="milestonebar" style="margin-bottom:20px;"></div>
                             </div>
                           </div>
                         </div>
                         <div class="col-md-6">
-                          <div class="form-group row">
-                            <label class="col-sm-3 col-form-label"></label>
-                            <div class="col-sm-9">
-                            
-                              <span id="milestone1"></span>
-
-                              <span id="milestone2"></span>
-
-                              <span id="milestone3"></span>
-
-                              <span id="milestone4"></span>
+                          <div class="status-container">
+                            <div class="status-group">
+                              <div class="status-item">
+                                <span class="status-label">Overall</span>
+                                <span class="status-icon" id="overall"></span>
+                              </div>
+                              <div class="status-item">
+                                <span class="status-label">Scope</span>
+                                <span class="status-icon" id="scope"></span>
+                              </div>
+                              <div class="status-item">
+                                <span class="status-label">Schedule</span>
+                                <span class="status-icon" id="schedule"></span>
+                              </div>
+                              <div class="status-item">
+                                <span class="status-label">Budget</span>
+                                <span class="status-icon" id="budget"></span>
+                              </div>
+                            </div>
+                            <div class="status-group">
+                              <div class="additional-status-item">
+                                <span class="status-label">Pace</span>
+                                <span class="status-icon" id="pace"></span>
+                              </div>
+                              <div class="additional-status-item">
+                                <span class="status-label">Execution</span>
+                                <span class="status-icon" id="execution"></span>
+                              </div>
+                              <div class="additional-status-item">
+                                <span class="status-label">Resources</span>
+                                <span class="status-icon" id="resource"></span>
+                              </div>
+                              <div class="additional-status-item">
+                                <span class="status-label">Issues</span>
+                                <span class="status-icon" id="issue1"></span>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-md-3">
-                          <div class="form-group row">
-                            <label class="col-sm-8 col-form-label">Overall</label>
-                            <div class="col-sm-4">
-                                <span id='overall'></span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-3">
-                          <div class="form-group row">
-                            <label class="col-sm-8 col-form-label">Scope</label>
-                            <div class="col-sm-4">
-                                <span id='scope'></span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-3">
-                          <div class="form-group row">
-                            <label class="col-sm-8 col-form-label">Schedule</label>
-                            <div class="col-sm-4">
-                                <span id='schedule'></span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-3">
-                          <div class="form-group row">
-                            <label class="col-sm-8 col-form-label">Budget</label>
-                            <div class="col-sm-4">
-                                <span id='budget'></span>
-                            </div>
-                          </div>
-                        </div>
-                        
                       </div>
                       <h3>Budget</h3>
                       <!-- <p class="card-description"> Budget </p> -->
@@ -541,13 +580,13 @@ label{font-weight: bold;}
                           </div>
                         </div>
                       </div>
-                      <h3> Risk Analysis </h3>
+                      <!-- <h3> Risk Analysis </h3>
                       <div class="row">
                         <div class="col-md-6">
                           <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Pace</label>
                             <div class="col-sm-9">
-                              <span id="peace"></span>
+                              <span id="pace"></span>
                             </div>
                           </div>
                         </div>
@@ -577,7 +616,7 @@ label{font-weight: bold;}
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </div> -->
                     </form>
                   </div>
                 </div>
@@ -585,7 +624,7 @@ label{font-weight: bold;}
           <div class="col-12 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Milestone Guant Chart</h4>
+                    <h4 class="card-title">Milestone Gantt Chart</h4>
                     <p class="card-description">  </p>
 
                     <div id="chart_div"></div>
@@ -879,76 +918,76 @@ $("#cashout_vs_accrualbar").html(temp4);
 
 
 
-function riskanalysis(peace,execution,resource) {
+function riskanalysis(pace,execution,resource) {
 //peace
-  if(peace <= 0){
-      let temp1 = "<div class='chart column'><div class='box'></div><div class='box'></div><div class='box'></div><div class='box'></div><div class='box'></div><div class='box'></div></div></td>"
-      $("#peace").html(temp1);
-  }else if(peace <=10){
-    let temp1 = "<div class='chart column'><div class='box green'></div><div class='box'></div><div class='box'></div><div class='box'></div><div class='box'></div><div class='box'></div></div></td>"
-    $("#peace").html(temp1);
+  if(pace <= 0){
+      let temp1 = "<div class='chart column'><div class='box'></div><div class='box'></div><div class='box'></div><div class='box'></div><div class='box'></div></div></td>"
+      $("#pace").html(temp1);
+  }else if(pace <=10){
+    let temp1 = "<div class='chart column'><div class='box green'></div><div class='box'></div><div class='box'></div><div class='box'></div><div class='box'></div></div></td>"
+    $("#pace").html(temp1);
 
-  }else if(peace <=20)
+  }else if(pace <=20)
   {
-    let temp1 = "<div class='chart column'><div class='box orange'></div><div class='box orange'></div><div class='box'></div><div class='box'></div><div class='box'></div><div class='box'></div></div></td>"
-  $("#peace").html(temp1);
+    let temp1 = "<div class='chart column'><div class='box orange'></div><div class='box orange'></div><div class='box'></div><div class='box'></div><div class='box'></div></div></td>"
+  $("#pace").html(temp1);
 
-  }else if(peace <=30){
-      let temp1 = "<div class='chart column'><div class='box orange'></div><div class='box orange'></div><div class='box orange'></div><div class='box'></div><div class='box'></div><div class='box'></div></div></td>"
-      $("#peace").html(temp1);
-  }else if(peace <=40){
-      let temp1 = "<div class='chart column'><div class='box red'></div><div class='box red'></div><div class='box red'></div><div class='box red'></div><div class='box red'></div><div class='box'></div></div></td>"
-      $("#peace").html(temp1);
+  }else if(pace <=30){
+      let temp1 = "<div class='chart column'><div class='box orange'></div><div class='box orange'></div><div class='box orange'></div><div class='box'></div><div class='box'></div></div></td>"
+      $("#pace").html(temp1);
+  }else if(pace <=40){
+      let temp1 = "<div class='chart column'><div class='box red'></div><div class='box red'></div><div class='box red'></div><div class='box red'></div><div class='box'></div></div></td>"
+      $("#pace").html(temp1);
   }else{
-      let temp1 = "<div class='chart column'><div class='box red' ></div><div class='box red'></div><div class='box red'></div><div class='box red'></div><div class='box red'></div><div class='box red'></div></div></td>"
-      $("#peace").html(temp1);
+      let temp1 = "<div class='chart column'><div class='box red' ></div><div class='box red'></div><div class='box red'></div><div class='box red'></div><div class='box red'></div></div></td>"
+      $("#pace").html(temp1);
   }
 
 //exceution
     if(execution <= 0){
-      let temp2 = "<div class='chart column'><div class='box'></div><div class='box'></div><div class='box'></div><div class='box'></div><div class='box'></div><div class='box'></div></div></td>"
+      let temp2 = "<div class='chart column'><div class='box'></div><div class='box'></div><div class='box'></div><div class='box'></div><div class='box'></div></div></td>"
       $("#execution").html(temp2);
   }else if(execution <=10){
-    let temp2 = "<div class='chart column'><div class='box green'></div><div class='box '></div><div class='box'></div><div class='box'></div><div class='box'></div><div class='box'></div></div></td>"
+    let temp2 = "<div class='chart column'><div class='box green'></div><div class='box '></div><div class='box'></div><div class='box'></div><div class='box'></div></div></td>"
     $("#execution").html(temp2);
 
   }else if(execution <=20)
   {
-    let temp2 = "<div class='chart column'><div class='box orange'></div><div class='box'></div><div class='box orange'></div><div class='box'></div><div class='box'></div><div class='box'></div></div></td>"
+    let temp2 = "<div class='chart column'><div class='box orange'></div><div class='box orange'></div><div class='box'></div><div class='box'></div><div class='box'></div></div></td>"
   $("#execution").html(temp2);
 
   }else if(execution <=30){
-      let temp2 = "<div class='chart column'><div class='box orange'></div><div class='box orange'></div><div class='box orange'></div><div class='box orange'></div><div class='box'></div><div class='box'></div></div></td>"
+      let temp2 = "<div class='chart column'><div class='box orange'></div><div class='box orange'></div><div class='box orange'></div><div class='box orange'></div><div class='box'></div></div></td>"
       $("#execution").html(temp2);
   }else if(execution <=40){
-      let temp2 = "<div class='chart column'><div class='box red'></div><div class='box red'></div><div class='box red'></div><div class='box red'></div><div class='box red'></div><div class='box'></div></div></td>"
+      let temp2 = "<div class='chart column'><div class='box red'></div><div class='box red'></div><div class='box red'></div><div class='box red'></div><div class='box'></div></div></td>"
       $("#execution").html(temp2);
   }else{
-      let temp2 = "<div class='chart column'><div class='box red' ></div><div class='box red'></div><div class='box red'></div><div class='box red'></div><div class='box red'></div><div class='box red'></div></div></td>"
+      let temp2 = "<div class='chart column'><div class='box red' ></div><div class='box red'></div><div class='box red'></div><div class='box red'></div><div class='box red'></div></div></td>"
       $("#execution").html(temp2);
   }
 
 //resources
     if(resource <= 0){
-      let temp3 = "<div class='chart column'><div class='box'></div><div class='box'></div><div class='box'></div><div class='box'></div><div class='box'></div><div class='box'></div></div></td>"
+      let temp3 = "<div class='chart column'><div class='box'></div><div class='box'></div><div class='box'></div><div class='box'></div><div class='box'></div></div></td>"
       $("#resource").html(temp3);
   }else if(resource <=10){
-    let temp3 = "<div class='chart column'><div class='box green'></div><div class='box '></div><div class='box'></div><div class='box'></div><div class='box'></div><div class='box'></div></div></td>"
+    let temp3 = "<div class='chart column'><div class='box green'></div><div class='box '></div><div class='box'></div><div class='box'></div><div class='box'></div></div></td>"
     $("#resource").html(temp3);
 
   }else if(resource <=20)
   {
-    let temp3 = "<div class='chart column'><div class='box orange'></div><div class='box orange'></div><div class='box orange'></div><div class='box'></div><div class='box'></div><div class='box'></div></div></td>"
+    let temp3 = "<div class='chart column'><div class='box orange'></div><div class='box orange'></div><div class='box orange'></div><div class='box'></div><div class='box'></div></div></td>"
   $("#resource").html(temp3);
 
   }else if(resource <=30){
-      let temp3 = "<div class='chart column'><div class='box orange'></div><div class='box orange'></div><div class='box orange'></div><div class='box orange'></div><div class='box'></div><div class='box'></div></div></td>"
+      let temp3 = "<div class='chart column'><div class='box orange'></div><div class='box orange'></div><div class='box orange'></div><div class='box orange'></div><div class='box'></div></div></td>"
       $("#resource").html(temp3);
   }else if(resource <=40){
-      let temp3 = "<div class='chart column'><div class='box red'></div><div class='box red'></div><div class='box red'></div><div class='box red'></div><div class='box red'></div><div class='box'></div></div></td>"
+      let temp3 = "<div class='chart column'><div class='box red'></div><div class='box red'></div><div class='box red'></div><div class='box red'></div><div class='box'></div></div></td>"
       $("#resource").html(temp3);
   }else{
-      let temp3 = "<div class='chart column'><div class='box red' ></div><div class='box red'></div><div class='box red'></div><div class='box red'></div><div class='box red'></div><div class='box red'></div></div></td>"
+      let temp3 = "<div class='chart column'><div class='box red' ></div><div class='box red'></div><div class='box red'></div><div class='box red'></div><div class='box red'></div></div></td>"
       $("#resource").html(temp3);
   }
 }
@@ -961,16 +1000,16 @@ function issuefun(issue,issuecount)
       $("#issue1").html(temp);
     }else
     if(issue == 'M'){
-      let temp="<span style='color: green;font-weight: bold;font-size:25px;'>M &#x2192;</span><br/><span style='font-weight:bold;'>Issue count - "+issuecount+"</span>";
+      let temp="<span style='color: orange;font-weight: bold;font-size:25px;'>M &#x2192;</span><br/><span style='font-weight:bold;'>Issue count - "+issuecount+"</span>";
       $("#issue1").html(temp);
     }else
     if(issue == 'H'){
-      let temp="<span style='color: green;font-weight: bold;font-size:25px;'>H &#x2197;</span><br/><span style='font-weight:bold;'>Issue count - "+issuecount+"</span>";
+      let temp="<span style='color: red;font-weight: bold;font-size:25px;'>H &#x2197;</span><br/><span style='font-weight:bold;'>Issue count - "+issuecount+"</span>";
       $("#issue1").html(temp);
 
     }else
     if(issue == 'Critical'){
-      let temp="<span style='color: green;font-weight: bold;font-size:25px;'>Critical &#x2191;</span><br/><span style='font-weight:bold;'>Issue count - "+issuecount+"</span>";
+      let temp="<span style='color: red;font-weight: bold;font-size:25px;'>Critical &#x2191;</span><br/><span style='font-weight:bold;'>Issue count - "+issuecount+"</span>";
       $("#issue1").html(temp);
 
     }else{
@@ -1033,10 +1072,10 @@ function sendData2(b=1) {
                   //cashout_vs_accrualbar  
                   cashout_vs_accrual_bar(ltbudget,cashout,accrual); 
 
-                  var peace = response.result.Pace; 
+                  var pace = response.result.Pace; 
                   var execution = response.result.Execution;
                   var resource = response.result.Resources;
-                  riskanalysis(peace,execution,resource)   
+                  riskanalysis(pace,execution,resource)   
 
                   var issue = response.result.Issues;                
                   var issuecount = response.result.IssuesCount;  

@@ -190,12 +190,12 @@
                 <i class="mdi  mdi-clipboard-text menu-icon"></i>
               </a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a class="nav-link" href="/studytimeline2">
                 <span class="menu-title">Project Study</span>
                <i class="mdi mdi-calendar-check menu-icon"></i>
               </a>
-            </li>
+            </li> -->
             <li class="nav-item">
               <a class="nav-link" href="/notes_issues">
                 <span class="menu-title">Notes & Issue</span>
@@ -244,6 +244,15 @@
               </nav>
             </div>
             <div class="row">
+              <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                        <div id="table_div"></div>
+                        <div id="charts_div"></div>
+                  </div>
+                </div>
+              </div>
+            <div class="row">
               <div class="col-lg-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
@@ -264,7 +273,7 @@
               </div>
             </div>
             <!-- <div class="row">
-              <div class="col-lg-6 grid-margin stretch-card">
+               <div class="col-lg-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title">Project Type</h4>
@@ -272,8 +281,8 @@
                     <div id="piechart" style="width: 500px; height: 420px;"></div>
                   </div>
                 </div>
-              </div>
-              <div class="col-lg-6 grid-margin stretch-card">
+              </div> -->
+              <!-- <div class="col-lg-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title">Doughnut chart</h4>
@@ -283,30 +292,9 @@
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>-->
-            <div class="row">
-              <div class="col-lg-12 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                        <div id="table_div"></div>
-                        <div id="charts_div"></div>
-<!--                     <h4 class="card-title">Pie chart</h4>
-                    <div class="doughnutjs-wrapper d-flex justify-content-center">
-                      <canvas id="pieChart"></canvas>
-                    </div> -->
-                  </div>
-                </div>
-              </div>
-<!--               <div class="col-lg-6 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title">Scatter chart</h4>
-                    <canvas id="scatterChart" style="height:250px"></canvas>
-                  </div>
-                </div>
               </div> -->
             </div>
+            
           </div>
           <!-- content-wrapper ends -->
           <!-- partial:../../partials/_footer.html -->
@@ -457,102 +445,106 @@
       }
 /////////////////////////////////////////////////////////////////////
    // Custom plugin to draw the needle
-      const gaugeNeedle = {
-        id: 'gaugeNeedle',
-        afterDatasetDraw(chart, args, options) {
-          const { ctx, chartArea: { top, bottom, left, right, width, height }, scales: { r } } = chart;
-          ctx.save();
+      // const gaugeNeedle = {
+      //   id: 'gaugeNeedle',
+      //   afterDatasetDraw(chart, args, options) {
+      //     const { ctx, chartArea: { top, bottom, left, right, width, height }, scales: { r } } = chart;
+      //     ctx.save();
 
-          const needleValue = chart.config.data.datasets[0].data[1]; // Current value
-          const dataTotal = chart.config.data.datasets[0].data.reduce((a, b) => a + b, 0);
-          const angle = Math.PI + (1 / dataTotal) * needleValue * Math.PI;
-          const cx = chart._metasets[0].data[0].x;
-          const cy = chart._metasets[0].data[0].y;
+      //     const needleValue = chart.config.data.datasets[0].data[1]; // Current value
+      //     const dataTotal = chart.config.data.datasets[0].data.reduce((a, b) => a + b, 0);
+      //     const angle = Math.PI + (1 / dataTotal) * needleValue * Math.PI;
+      //     const cx = chart._metasets[0].data[0].x;
+      //     const cy = chart._metasets[0].data[0].y;
 
-          // Draw needle
-          ctx.translate(cx, cy);
-          ctx.rotate(angle);
-          ctx.beginPath();
-          ctx.moveTo(0, -2);
-          ctx.lineTo(height / 2 - 10, 0);
-          ctx.lineTo(0, 2);
-          ctx.fillStyle = 'black';
-          ctx.fill();
-          ctx.restore();
+      //     // Draw needle
+      //     ctx.translate(cx, cy);
+      //     ctx.rotate(angle);
+      //     ctx.beginPath();
+      //     ctx.moveTo(0, -2);
+      //     ctx.lineTo(height / 2 - 10, 0);
+      //     ctx.lineTo(0, 2);
+      //     ctx.fillStyle = 'black';
+      //     ctx.fill();
+      //     ctx.restore();
 
-          // Draw needle dot
-          ctx.beginPath();
-          ctx.arc(cx, cy, 5, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.restore();
-        }
-      };
+      //     // Draw needle dot
+      //     ctx.beginPath();
+      //     ctx.arc(cx, cy, 5, 0, Math.PI * 2);
+      //     ctx.fill();
+      //     ctx.restore();
+      //   }
+      // };
 
-      // Register the plugin
-      Chart.register(gaugeNeedle);
+      // // Register the plugin
+      // Chart.register(gaugeNeedle);
 
-      // Gauge 1: Total Budget vs Current Spend
-      var options1 = {
-        type: 'doughnut',
-        data: {
-          labels: ["Total Budget", "Current Spend"],
-          datasets: [{
-            label: 'Total Spend and Current Spend',
-            data: [13512000, 6003251],
-            backgroundColor: ["Red", "Yellow"]
-          }]
-        },
-        options: {
-          rotation: 270, // start angle in degrees
-          circumference: 180, // sweep angle in degrees
-          plugins: {
-            datalabels: {
-              display: false
-            }
-          }
-        }
-      };
+      // // Gauge 1: Total Budget vs Current Spend
+      // var options1 = {
+      //   type: 'doughnut',
+      //   data: {
+      //     labels: ["Total Budget", "Current Spend"],
+      //     datasets: [{
+      //       label: 'Total Spend and Current Spend',
+      //       data: [13512000, 6003251],
+      //       backgroundColor: ["Red", "Yellow"]
+      //     }]
+      //   },
+      //   options: {
+      //     rotation: 270, // start angle in degrees
+      //     circumference: 180, // sweep angle in degrees
+      //     plugins: {
+      //       datalabels: {
+      //         display: false
+      //       }
+      //     }
+      //   }
+      // };
 
-      var ctx1 = document.getElementById('chartJSContainer').getContext('2d');
-      new Chart(ctx1, options1);
+      // var ctx1 = document.getElementById('chartJSContainer').getContext('2d');
+      // new Chart(ctx1, options1);
 
-      // Gauge 2: Total Status vs Current Status
-      var options2 = {
-        type: 'doughnut',
-        data: {
-          labels: ["Total Status", "Current Status"],
-          datasets: [{
-            label: "Total Status and Current Status",
-            data: [75, 32],
-            backgroundColor: ["Yellow", "Green"]
-          }]
-        },
-        options: {
-          rotation: 270, // start angle in degrees
-          circumference: 180, // sweep angle in degrees
-          plugins: {
-            datalabels: {
-              display: false
-            }
-          }
-        }
-      };
+      // // Gauge 2: Total Status vs Current Status
+      // var options2 = {
+      //   type: 'doughnut',
+      //   data: {
+      //     labels: ["Total Status", "Current Status"],
+      //     datasets: [{
+      //       label: "Total Status and Current Status",
+      //       data: [75, 32],
+      //       backgroundColor: ["Yellow", "Green"]
+      //     }]
+      //   },
+      //   options: {
+      //     rotation: 270, // start angle in degrees
+      //     circumference: 180, // sweep angle in degrees
+      //     plugins: {
+      //       datalabels: {
+      //         display: false
+      //       }
+      //     }
+      //   }
+      // };
 
-      var ctx2 = document.getElementById('chartJSContainer2').getContext('2d');
-      new Chart(ctx2, options2);
+      // var ctx2 = document.getElementById('chartJSContainer2').getContext('2d');
+      // new Chart(ctx2, options2);
 
 ////////////////////////////////////////////////////////////////////////////////
       google.charts.load('current', { packages: ['table', 'bar'] });
       google.charts.setOnLoadCallback(drawTable5);
 
       async function fetchData5() {
-        // Simulate fetching data from API
-        const response5 = await fetch('/testtable');
-        const data5 = await response5.json();
-        return data5.result;
+        try {
+          const response5 = await fetch('/testtable');
+          const data5 = await response5.json();
+          return data5.result;
+        } catch (error) {
+          console.error('Error fetching data for the table:', error);
+        }
       }
 
       async function drawTable5() {
+        console.log('drawtable5 is being called');
         const apiData5 = await fetchData5();
 
         // Prepare data for the table

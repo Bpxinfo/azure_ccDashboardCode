@@ -135,9 +135,13 @@
         flex-direction: row;
         align-items:center;
       }
+      .card {
+        display:flex;
+        flex-direction:column;
+        height:100%
+      }
       .card-body {
-        overflow: scroll;
-        height: 650px;
+        flex:1;
       }
 
       /* a. Completion Percentage Display */
@@ -585,12 +589,12 @@
                 <i class="mdi mdi-calendar-text menu-icon"></i>
               </a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a class="nav-link" href="/studytimeline2">
                 <span class="menu-title">Project Study</span>
                 <i class="mdi mdi-apps menu-icon"></i>
               </a>
-            </li>
+            </li> -->
             <li class="nav-item">
               <a class="nav-link" href="/notes_issues">
                 <span class="menu-title">Notes & Issue</span>
