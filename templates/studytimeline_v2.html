@@ -664,12 +664,12 @@
                         <i class="mdi mdi-calendar-check menu-icon"></i>
                       </a>
                     </li> -->
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                       <a class="nav-link" href="/notes_issues">
                         <span class="menu-title">Notes & Issue</span>
                         <i class="mdi mdi-calendar-check menu-icon"></i>
                       </a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                       <a class="nav-link" href="/project_milestone">
                         <span class="menu-title">Project Milestone</span>
@@ -1196,7 +1196,9 @@
                 var calendar = mobiscroll.eventcalendar('#demo-timeline-time-grid', {
                     view: {
                         timeline: {
-                            type: 'week'
+                            type: 'week',
+                            eventList:true,
+                            weekNumbers: false,
                         }
                     },
                     resources: [] // Resources will be set dynamically

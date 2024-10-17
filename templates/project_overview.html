@@ -155,6 +155,9 @@
       /* b. Progress Bar Container */
       .progress-bar-container {
           position: relative;
+          display:flex;
+          align-items:center;
+          justify-content:center;
           width: 100%;
           max-width: 300px;
           margin-bottom: 15px;
@@ -178,7 +181,6 @@
           height: 100%;
           background-color: rgba(9, 88, 121, 0.8);
           width: {{ cashout_percentage }}%;
-          z-index: 1;
           border-radius: 12.5px 0 0 12.5px;
       }
 
@@ -190,7 +192,6 @@
           height: 100%;
           background-color: rgba(12, 186, 222, 1);
           width: {{ completion_percentage }}%;
-          z-index: 2;
           border-radius: 12.5px 0 0 12.5px;
       }
 
@@ -207,14 +208,14 @@
       /* Milestone Dots */
       .milestone-dots {
           position: absolute;
-          top: 50%;
-          left: 0;
+          top: 35%;
+          left: 5px;
           width: 100%;
           height: 0;
           display: flex;
           justify-content: space-between;
           transform: translateY(-50%);
-          z-index: 4;
+          z-index: 5;
       }
 
       .milestone-dot {
@@ -222,7 +223,7 @@
           height: 10px;
           background-color: black;
           border-radius: 50%;
-          transform: translateX(-50%);
+          z-index: 5;
       }
 
       .proress-bar-wrapper {
@@ -237,18 +238,24 @@
         font-size: 12px;
         font-weight: bold;
         white-space: nowrap;
-        background-color: white; /* Optional: for better readability */
         padding: 2px 4px;
         border-radius: 4px;
-        box-shadow: 0 0 2px rgba(0,0,0,0.3);
       }
 
       .start-date {
-          left: -80px;
+          left: 0px;
+          top:50%;
+          margin-left:5px;
+          transform: translateY(-50%); /* Center vertically */
+
       }
 
       .end-date {
-          right: -80px;
+          right:0px;
+          margin-right:5px;
+          top:50%;
+          transform: translateY(-50%); /* Center vertically */
+
       }
 
       /* d. Labels for Budget and Actuals */
@@ -257,49 +264,36 @@
           width: 100%;
           max-width: 300px;
           height: auto; /* Same as progress bar height */
-          margin-top: 5px;
+          margin-top: 10px;
+          text-align:center;
       }
 
-      .budget-label {
+      .label-container {
           position: absolute;
-          right: 0;
-          top: 0;
+          top: calc(100% + 10px); /* Place the labels 15px below the bar */
+          left: 50%;
+          transform: translateX(-50%); /* Center the container horizontally */
+          display: flex;
+          gap: 20px; /* Add space between labels */
+          align-items: center;
+      }
+      .date-label {
+          position: absolute;
           font-size: 12px;
           font-weight: bold;
           white-space: nowrap;
+          padding: 2px 4px;
+          background-color: rgba(255, 255, 255, 0.8);
+          border-radius: 4px;
       }
-
-      .actuals-label {
-        position: absolute;
-        left: {{ completion_percentage }}%;
-        top: 50%; /* Vertically center */
-        transform: translate(-50%, -50%);
-        font-size: 12px;
-        font-weight: bold;
-        color: white;
-        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background for readability */
-        padding: 2px 4px;
-        border-radius: 4px;
-        white-space: nowrap;
-        box-shadow: 0 0 2px rgba(0,0,0,0.3);
-        z-index: 5; /* Ensure it's above other elements */
+      .label {
+          font-size: 12px;
+          font-weight: bold;
+          white-space: nowrap;
+          padding: 2px 4px;
+          background-color: rgba(255, 255, 255, 0.8);
+          border-radius: 4px;
       }
-
-      .accrual-label {
-        position: absolute;
-        left: {{ accrual_percentage }}%;
-        top: -25px; /* Positioned above the indicator */
-        transform: translateX(-50%);
-        font-size: 12px;
-        font-weight: bold;
-        color: black;
-        background-color: white; /* Background for readability */
-        padding: 2px 4px;
-        border-radius: 4px;
-        white-space: nowrap;
-        box-shadow: 0 0 2px rgba(0,0,0,0.3);
-        z-index: 5; /* Ensure it's above other elements */
-    }
 
       /* e. Responsive Adjustments */
       @media (max-width: 768px) {
@@ -345,6 +339,30 @@
         font-size: 16px;
     }
 
+    .notes-container {
+      margin-top: 10px;
+    }
+
+    ul {
+      list-style-type: disc;
+      padding-left: 20px;
+    }
+
+    ul li {
+      margin-bottom: 5px;
+    }
+
+    .add-note {
+      margin-top: 10px;
+    }
+
+    .delete-note {
+      margin-left: 10px;
+      color: red;
+      cursor: pointer;
+    }
+
+    
     </style>
   </head>
   <body>
@@ -595,12 +613,12 @@
                 <i class="mdi mdi-apps menu-icon"></i>
               </a>
             </li> -->
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a class="nav-link" href="/notes_issues">
                 <span class="menu-title">Notes & Issue</span>
                 <i class="mdi mdi-note-multiple menu-icon"></i>
               </a>
-            </li>
+            </li> -->
 			<li class="nav-item">
               <a class="nav-link" href="/studytimeline_v2">
                 <span class="menu-title">Project Milestone</span>
@@ -653,7 +671,7 @@
                             style="width: 130px"
                             title="Unique identifier for the project"
                           >
-                            Projectid
+                            Project ID
                           </th>
                           <th title="Current status of the project">Status</th>
                           <th
@@ -677,6 +695,11 @@
                             title="Project issues, including severity and count"
                           >
                             Issues
+                          </th>
+                          <th
+                            title="Click Add Note to add a new note to the project. Can add up to 5 notes for now"
+                          >
+                            Notes
                           </th>
                         </tr>
                       </thead>
@@ -807,7 +830,7 @@
                               {"percent": 75, "name": "Milestone 3"}
                           ] %}
 
-                          <td style="width:25%; position: relative;">
+                          <td style="width:30%; position: relative;">
                             <!-- Completion Percentage Display -->
                             <div class="completion-percentage">
                                 Project Milestone Completion: {{ completion_percentage| round(2) }}%
@@ -816,7 +839,7 @@
                             <!-- Container for Dates and Progress Bar -->
                             <div class="progress-bar-wrapper" style="display: flex; align-items: center; justify-content: center;">
                                 <!-- Start Date -->
-                                <span class="start-date">{{ value['startdate'] }}</span>
+                                <span class="date-label start-date">{{ value['startdate'] }}</span>
                                 
                                 <!-- Progress bar container with overlayed Budget and Completion Bars -->
                                 <div class="progress-bar-container">
@@ -839,15 +862,15 @@
                                     </div>
                                   
                                     <!-- Labels for Budget, Actuals, and Accrual -->
-                                    <div class="progress-bar-labels">
-                                        <span class="budget-label">Budget: {{ value['labelbg'] }}</span>
-                                        <span class="actuals-label">Actuals: {{ value['labelcas'] }}</span>
-                                        <span class="accrual-label">Accrual: {{ value['labelacc'] }}</span>
+                                    <div class="label-container">
+                                        <span class="label">Budget: {{ value['labelbg'] }}</span>
+                                        <span class="label">Actuals: {{ value['labelcas'] }}</span>
+                                        <span class="label">Accrual: {{ value['labelacc'] }}</span>
                                     </div>
                                 </div>
                                 
                                 <!-- End Date -->
-                                <span class="end-date">{{ value['enddate'] }}</span>
+                                <span class="date-label end-date">{{ value['enddate'] }}</span>
                             </div>
                         </td>
                         
@@ -935,6 +958,13 @@
                                       {% endif %}
                                   <div>{{ value['IssuesCount'] }}</div>
                                   </td>
+                          <td>
+                          <!-- Notes section -->
+                          <div class="notes-container">
+                            <ul id="notes-list-{{ project_id }}"></ul> <!-- List of notes -->
+                            <button class="btn btn-primary add-note" data-project-id="{{ project_id }}">Add Note</button>
+                          </div>
+                        </td>
                         </tr>
                         {% endfor %}
                       </tbody>
@@ -980,5 +1010,88 @@
     <script src="{{ url_for('static', filename='assets/js/todolist.js') }}"></script>
     <script src="{{ url_for('static', filename='assets/js/jquery.cookie.js') }}"></script>
     <!-- endinject -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+  // Get the width percentages of the bars
+      const budgetBar = document.querySelectorAll(".budget-bar");
+      const completionBar = document.querySelectorAll(".completion-bar");
+      
+      // Loop through each budget and completion bar pair
+      budgetBar.forEach((budget, index) => {
+        const budgetPercentage = parseFloat(budget.style.width);
+        const completionPercentage = parseFloat(completionBar[index].style.width);
+
+        // Assign z-index dynamically: lower percentage gets higher z-index (appears on top)
+        if (budgetPercentage > completionPercentage) {
+          budget.style.zIndex = 1;
+          completionBar[index].style.zIndex = 2;
+        } else if (budgetPercentage < completionPercentage) {
+          budget.style.zIndex = 2;
+          completionBar[index].style.zIndex = 1;
+        } else {
+          // When percentages are equal, keep the completion bar on top
+          budget.style.zIndex = 1;
+          completionBar[index].style.zIndex = 2;
+        }
+        
+        // Ensure both bars are always visible by adding a minimum width
+        if (budgetPercentage === 0) {
+          budget.style.width = "1%";
+        }
+        if (completionPercentage === 0) {
+          completionBar[index].style.width = "1%";
+        }
+      });
+    });
+
+    </script>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+  // Handle adding notes
+      document.querySelectorAll('.add-note').forEach(function (button) {
+        button.addEventListener('click', function () {
+          const projectId = this.getAttribute('data-project-id');
+          const notesList = document.getElementById(`notes-list-${projectId}`);
+
+          // Get the number of existing notes
+          const existingNotes = notesList.getElementsByTagName('li').length;
+
+          // Check if the limit of 5 notes is reached
+          if (existingNotes >= 5) {
+            alert('You cannot add more than 5 notes.');
+            return;
+          }
+
+          // Prompt user for note input
+          const noteText = prompt("Enter your note (max 250 characters):");
+
+          // Validate note input
+          if (noteText && noteText.length <= 250) {
+            // Create new list item for the note
+            const noteItem = document.createElement('li');
+            noteItem.innerHTML = `${noteText} <button class="delete-note">Delete</button>`;
+
+            // Add delete functionality
+            noteItem.querySelector('.delete-note').addEventListener('click', function () {
+              notesList.removeChild(noteItem);
+              button.disabled = false; // Re-enable the Add Note button if a note is deleted
+            });
+
+            // Append note to the list
+            notesList.appendChild(noteItem);
+
+            // Disable the Add Note button if 5 notes are reached
+            if (existingNotes + 1 >= 5) {
+              button.disabled = true;
+            }
+          } else {
+            alert('Please enter a valid note (maximum 250 characters).');
+          }
+        });
+      });
+    });
+
+    </script>
   </body>
 </html>
